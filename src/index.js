@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter /*, Route, Switch, Redirect*/ } from "react-router-dom";
+import { createStore } from 'redux';
+import { Provider } from 'react-redux'
+import ingredients from './store/reducers/ingredients';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 //import Checkout from './containers/Checkout/Checkout';
+
+const store = createStore(ingredients);
 
 const app = (
     <BrowserRouter>
@@ -20,5 +25,5 @@ const app = (
     </BrowserRouter>
 );
 
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}>{app}</Provider>, document.getElementById('root'));
 registerServiceWorker();
