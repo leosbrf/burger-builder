@@ -39,20 +39,6 @@ class BurgerBuilder extends Component {
         return sum > 0;
     }
 
-    addIngredientHandler = (type) => {
-        this.props.onAddIngredient(type);
-    }
-
-    removeIngredientHandler = (type) => {
-        const oldCount = this.props.ingredients[type];
-
-        if (oldCount <= 0) {
-            return;
-        }
-
-        this.props.onRemoveIngredient(type);
-    }
-
     purchaseHandler = () => {
         this.setState({ purchasing: true });
     }
@@ -84,6 +70,7 @@ class BurgerBuilder extends Component {
         const disabledInfo = {
             ...ingredients
         };
+
         for (const key in disabledInfo) {
             if (disabledInfo.hasOwnProperty(key)) {
                 disabledInfo[key] = disabledInfo[key] <= 0;
@@ -95,14 +82,14 @@ class BurgerBuilder extends Component {
         let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <Spinner />
 
         const purchasable = this.isPurchasable(ingredients);
-
-        if (ingredients) {
+        
+        if (ingredients && Object.keys(ingredients).length > 0) {
             burger =
                 <React.Fragment>
                     <Burger ingredients={ingredients} />
                     <BuildControls
-                        ingredientAdded={this.addIngredientHandler}
-                        ingredientRemoved={this.removeIngredientHandler}
+                        ingredientAdded={(type) => this.props.onAddIngredient(type)}
+                        ingredientRemoved={(type) => this.props.onRemoveIngredient(type)}
                         disable={disabledInfo}
                         purchasable={purchasable}
                         ordered={this.purchaseHandler}

@@ -19,7 +19,6 @@ const ingredients = (state = initialState, action) => {
 
     switch (action.type) {
         case actions.GET_INGREDIENTS_SUCCESS:
-            console.log(action.payload.ingredients);
             return {
                 ...state,
                 ingredients: action.payload.ingredients,
@@ -48,37 +47,27 @@ const ingredients = (state = initialState, action) => {
 
 const addIngredient = (state, payload) => {
     const type = payload.ingredientType;
-    const oldCount = state.ingredients[type];
-    const updatedCount = oldCount + 1;
-    const updatedIngredients = {
-        ...state.ingredients
-    }
-    updatedIngredients[type] = updatedCount;
-    const priceAddition = INGREDIENT_PRICES[type];
-    const oldPrice = state.totalPrice;
-    const newPrice = oldPrice + priceAddition;
+
     return {
         ...state,
-        ingredients: updatedIngredients,
-        totalPrice: newPrice
+        ingredients: {
+            ...state.ingredients,
+            [type]: state.ingredients[type] + 1
+        },
+        totalPrice:  state.totalPrice + INGREDIENT_PRICES[type]
     }
 }
 
 const removeIngredient = (state, payload) => {
     const type = payload.ingredientType;
-    const oldCount = state.ingredients[type];
-    const updatedCount = oldCount - 1;
-    const updatedIngredients = {
-        ...state.ingredients
-    }
-    updatedIngredients[type] = updatedCount;
-    const priceDeduction = INGREDIENT_PRICES[type];
-    const oldPrice = state.totalPrice;
-    const newPrice = oldPrice - priceDeduction;
+
     return {
         ...state,
-        ingredients: updatedIngredients,
-        totalPrice: newPrice
+        ingredients: {
+            ...state.ingredients,
+            [type]: state.ingredients[type] - 1
+        },
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[type]
     }
 }
 
