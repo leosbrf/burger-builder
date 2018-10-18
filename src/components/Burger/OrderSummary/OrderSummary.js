@@ -7,7 +7,7 @@ class OrderSummary extends Component {
     //I changed Modal.js instead, because OrderSummary is a child of Modal
     //then it will not trigger the update lifecycle unless Modal says it.
     componentWillUpdate() {
-        console.log('[Order Summary] WillUpdate');
+        //console.log('[Order Summary] WillUpdate');
     }
 
     render() {

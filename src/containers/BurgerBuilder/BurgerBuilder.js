@@ -48,19 +48,21 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        //this.props.history.push('/checkout');
-        const params = [];
-        for (let i in this.props.ingredients) {
-            params.push(
-                encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
-        }
+        this.props.history.push('/checkout');
 
-        params.push('price=' + this.state.totalPrice);
-        const queryString = params.join('&');
-        this.props.history.push({
-            pathname: '/checkout',
-            search: '?' + queryString
-        })
+        //handled by redux
+        // const params = [];
+        // for (let i in this.props.ingredients) {
+        //     params.push(
+        //         encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
+        // }
+
+        // params.push('price=' + this.state.totalPrice);
+        // const queryString = params.join('&');
+        // this.props.history.push({
+        //     pathname: '/checkout',
+        //     search: '?' + queryString
+        // })
     }
 
     render() {
@@ -122,7 +124,10 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    ...state
+    ingredients: {
+        ...state.ingredients
+    },
+    totalPrice: state.totalPrice
 })
 
 const mapDispatchToProps = dispatch => {

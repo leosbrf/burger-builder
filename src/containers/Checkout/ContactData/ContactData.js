@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.css';
 import axios from '../../../axios-orders';
@@ -103,10 +104,11 @@ class ContactData extends Component {
                 formData[formElement] = this.state.orderForm[formElement].value;
             }
         }
+        console.log(this.props);
         //alert('You continue!');
         const order = {
             ingredients: this.props.ingredients,
-            price: this.props.price,
+            price: this.props.totalPrice,
             orderData: formData
         }
         axios.post('/orders.json', order)
@@ -123,7 +125,7 @@ class ContactData extends Component {
 
     checkValidity(value, rules) {
         let isValid = true;
-        
+
         if (!rules)
             return isValid;
 
@@ -213,4 +215,11 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = (state) => ({
+    ingredients: {
+        ...state.ingredients,
+    },
+    totalPrice: state.totalPrice
+})
+
+export default connect(mapStateToProps)(ContactData);
