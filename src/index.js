@@ -9,7 +9,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 //import Checkout from './containers/Checkout/Checkout';
 
-const store = createStore(ingredients);
+const store = createStore(ingredients, window.__REDUX_DEVTOOLS_EXTENSION__ 
+    && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 const app = (
     <BrowserRouter>
