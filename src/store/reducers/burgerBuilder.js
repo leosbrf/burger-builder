@@ -1,4 +1,4 @@
-import * as actions from "../actions";
+import * as actions from "../actions/actionTypes";
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -8,7 +8,7 @@ const INGREDIENT_PRICES = {
 }
 
 const initialState = {
-    ingredients: [],
+    ingredients: {},
     totalPrice: 4,
     error: false
 }
@@ -18,13 +18,14 @@ const ingredients = (state = initialState, action) => {
     let newState = { ...state };
 
     switch (action.type) {
-        case actions.GET_INGREDIENTS_SUCCESS:
+        case actions.SET_INGREDIENTS:
             return {
                 ...state,
-                ingredients: action.payload.ingredients,
-                error: false
+                ingredients: action.ingredients,
+                error: false,
+                totalPrice: 4
             }
-        case actions.GET_INGREDIENTS_ERROR:
+        case actions.FETCH_INGREDIENTS_FAILED:
             return {
                 ...state,
                 ingredients: [],
@@ -32,11 +33,11 @@ const ingredients = (state = initialState, action) => {
             }
 
         case actions.ADD_INGREDIENT:
-            newState = addIngredient(state, action.payload);
+            newState = addIngredient(state, action.ingredientName);
             return newState;
 
         case actions.REMOVE_INGREDIENT:
-            newState = removeIngredient(state, action.payload);
+            newState = removeIngredient(state, action.ingredientName);
             return newState;
 
         default:
@@ -45,29 +46,27 @@ const ingredients = (state = initialState, action) => {
     return state;
 }
 
-const addIngredient = (state, payload) => {
-    const type = payload.ingredientType;
+const addIngredient = (state, ingredientName) => {
 
     return {
         ...state,
         ingredients: {
             ...state.ingredients,
-            [type]: state.ingredients[type] + 1
+            [ingredientName]: state.ingredients[ingredientName] + 1
         },
-        totalPrice:  state.totalPrice + INGREDIENT_PRICES[type]
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[ingredientName]
     }
 }
 
-const removeIngredient = (state, payload) => {
-    const type = payload.ingredientType;
+const removeIngredient = (state, ingredientName) => {
 
     return {
         ...state,
         ingredients: {
             ...state.ingredients,
-            [type]: state.ingredients[type] - 1
+            [ingredientName]: state.ingredients[ingredientName] - 1
         },
-        totalPrice: state.totalPrice - INGREDIENT_PRICES[type]
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[ingredientName]
     }
 }
 
