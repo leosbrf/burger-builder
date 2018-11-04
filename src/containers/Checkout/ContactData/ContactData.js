@@ -98,20 +98,22 @@ class ContactData extends Component {
     orderHandler = (event) => {
         event.preventDefault();
 
+        const { ingredients, totalPrice, userId, onOrderBurger } = this.props
+
         const formData = {};
         for (const formElement in this.state.orderForm) {
             if (this.state.orderForm.hasOwnProperty(formElement)) {
                 formData[formElement] = this.state.orderForm[formElement].value;
             }
         }
-        //alert('You continue!');
         const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.totalPrice,
-            orderData: formData
+            ingredients: ingredients,
+            price: totalPrice,
+            orderData: formData,
+            userId: userId
         }
 
-        this.props.onOrderBurger(order);
+        onOrderBurger(order);
     }
 
     checkValidity(value, rules) {
@@ -209,7 +211,8 @@ class ContactData extends Component {
 const mapStateToProps = (state) => ({
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    userId: state.auth.userId
 })
 
 const mapDispatchToProps = dispatch => {

@@ -23,9 +23,10 @@ export const purchaseBurgerStart = () => {
 }
 
 export const purchaseBurger = (orderData) => {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(purchaseBurgerStart());
-        axios.post('/orders.json', orderData)
+        //better way is to pass the authentication token automatically in an axios interceptor
+        axios.post(`/orders.json?auth=${getState().auth.idToken}`, orderData)
             .then(response => {
                 dispatch(purchaseBurgerSuccess(response.data.name, orderData));
             })
@@ -61,25 +62,27 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = () => {
-    return dispatch =>{
+export const fetchOrders = (userId) => {
+    return (dispatch, getState) => {
         dispatch(fetchOrdersStart())
-        axios.get('/orders.json')
-        .then(response => {
-            const fetchedOrders = [];
-            for (const key in response.data) {
-                if (response.data.hasOwnProperty(key)) {
-                    const order = response.data[key];
-                    fetchedOrders.push({
-                        ...order,
-                        id: key
-                    });
+        //better way is to pass the authentication token automatically in an axios interceptor
+        const queryParams = `?auth=${getState().auth.idToken}&orderBy="userId"&equalTo="${userId}"`
+        axios.get(`/orders.json${queryParams}`)
+            .then(response => {
+                const fetchedOrders = [];
+                for (const key in response.data) {
+                    if (response.data.hasOwnProperty(key)) {
+                        const order = response.data[key];
+                        fetchedOrders.push({
+                            ...order,
+                            id: key
+                        });
+                    }
                 }
-            }
-            dispatch(fetchOrdersSuccess(fetchedOrders));
-        })
-        .catch(err => {
-            dispatch(fetchOrdersFailed(err))
-        })
+                dispatch(fetchOrdersSuccess(fetchedOrders));
+            })
+            .catch(err => {
+                dispatch(fetchOrdersFailed(err))
+            })
     }
 }

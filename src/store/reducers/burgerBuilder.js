@@ -10,7 +10,8 @@ const INGREDIENT_PRICES = {
 const initialState = {
     ingredients: {},
     totalPrice: 4,
-    error: false
+    error: false,
+    building: false
 }
 
 const ingredients = (state = initialState, action) => {
@@ -23,13 +24,15 @@ const ingredients = (state = initialState, action) => {
                 ...state,
                 ingredients: action.ingredients,
                 error: false,
-                totalPrice: 4
+                totalPrice: 4,
+                building: false
             }
         case actions.FETCH_INGREDIENTS_FAILED:
             return {
                 ...state,
                 ingredients: [],
-                error: true
+                error: true,
+                building: false
             }
 
         case actions.ADD_INGREDIENT:
@@ -54,7 +57,8 @@ const addIngredient = (state, ingredientName) => {
             ...state.ingredients,
             [ingredientName]: state.ingredients[ingredientName] + 1
         },
-        totalPrice: state.totalPrice + INGREDIENT_PRICES[ingredientName]
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[ingredientName],
+        building: true
     }
 }
 
@@ -66,7 +70,8 @@ const removeIngredient = (state, ingredientName) => {
             ...state.ingredients,
             [ingredientName]: state.ingredients[ingredientName] - 1
         },
-        totalPrice: state.totalPrice - INGREDIENT_PRICES[ingredientName]
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[ingredientName],
+        building: true
     }
 }
 

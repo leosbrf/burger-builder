@@ -10,6 +10,9 @@ const controls = [
 ];
 
 const buildControls = (props) => {
+
+    const { isAuthenticated } = props
+
     return (
         <div className={classes.BuildControls}>
             <p>Current price: <strong>{props.price.toFixed(2)}</strong></p>
@@ -25,7 +28,7 @@ const buildControls = (props) => {
             <button
                 className={classes.OrderButton}
                 disabled={!props.purchasable}
-                onClick={props.ordered}>ORDER NOW</button>
+                onClick={props.ordered}>{isAuthenticated ? 'ORDER NOW' : 'SIGNUP TO TORDER'}</button>
         </div>
     );
 }

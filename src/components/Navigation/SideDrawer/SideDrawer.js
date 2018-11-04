@@ -6,21 +6,23 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 
 const sideDrawer = (props) => {
 
+    const { open, closed, isAuthenticated } = props
+
     let attachedClasses = [classes.SideDrawer, classes.Close]
 
-    if (props.open) {
+    if (open) {
         attachedClasses = [classes.SideDrawer, classes.Open];
     }
 
     return (
         <React.Fragment>
-            <Backdrop show={props.open} clicked={props.closed}/>
+            <Backdrop show={open} clicked={closed} />
             <div className={attachedClasses.join(' ')}>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={isAuthenticated} />
                 </nav>
             </div>
         </React.Fragment>
