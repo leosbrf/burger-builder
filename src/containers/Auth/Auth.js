@@ -114,8 +114,9 @@ class Auth extends Component {
             errorMessage = <p>{error.message}</p>
         }
 
-        if (isAuthenticated)
+        if (isAuthenticated) {           
             return <Redirect to={authRedirectPath} />
+        }
 
         if (!loading) {
             const formsElementArray = [];

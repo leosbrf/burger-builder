@@ -19,7 +19,7 @@ class App extends Component {
 
   render() {
 
-    const { isAuthenticated } = this.props
+    const { isAuthenticated, authRedirectPath } = this.props
 
     //for unauthenticated users
     let routes = (
@@ -37,7 +37,7 @@ class App extends Component {
           <Route path="/orders" component={Orders}></Route>
           <Route path="/logout" component={Logout}></Route>
           <Route path="/" exact component={BurgerBuilder}></Route>
-          <Redirect to="/" />
+          <Redirect to={authRedirectPath} />
         </Switch>
       )
     }
@@ -54,7 +54,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.idToken !== null
+    isAuthenticated: state.auth.idToken !== null,
+    authRedirectPath: state.auth.authRedirectPath
   }
 }
 
