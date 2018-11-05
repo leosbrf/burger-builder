@@ -7,6 +7,8 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from "../../../store/actions";
+import { checkValidity } from "../../../shared/utility";
+
 
 class ContactData extends Component {
     state = {
@@ -116,27 +118,6 @@ class ContactData extends Component {
         onOrderBurger(order);
     }
 
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        if (!rules)
-            return isValid;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
-    }
-
     inputChangedhandler = (event, inputIdentifier) => {
 
         //shallow copy of all order form elements
@@ -151,7 +132,7 @@ class ContactData extends Component {
 
         //set the value the user input
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
 
         //put the changed value of formElement into the shallow copy of orderForm
