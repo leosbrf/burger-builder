@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Burger from 'components/Burger/Burger';
+import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from './../../components/UI/Modal/Modal';
 import OrderSummary from './../../components/Burger/OrderSummary/OrderSummary';
@@ -8,7 +8,8 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 import * as actions from '../../store/actions';
 
-class BurgerBuilder extends Component {
+//The export was also added here for unit testing purposes
+export class BurgerBuilder extends Component {
 
     state = {
         purchasable: false,
@@ -20,6 +21,8 @@ class BurgerBuilder extends Component {
     }
 
     isPurchasable(ingredients) {
+        if (!ingredients) return false;
+        
         const sum = Object.keys(ingredients)
             .map(igKey => {
                 return ingredients[igKey]

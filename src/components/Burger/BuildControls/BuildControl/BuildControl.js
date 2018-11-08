@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from 'components/Burger/BuildControls/BuildControl/BuildControl.css';
+import classes from './BuildControl.css';
 
 const buildControl = (props) => {
     const { label, disable, removed, added } = props;
