@@ -50,7 +50,7 @@ export const auth = (email, password, isSignup) => {
             returnSecureToken: true
         }
 
-        const apiKey = null //firebase API key
+        const apiKey = 'AIzaSyCR_MslgmLNtVSi3gKhaUQ53ro1JEVXt8A' //firebase API key
         
         if (!apiKey)
             console.error('No API key was set');
