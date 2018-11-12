@@ -10,7 +10,7 @@ import BurgerBuilder from 'containers/BurgerBuilder/BurgerBuilder';
 import withErrorHandler from './hoc/withErrorHandler/withErrorHandler';
 import axios from './axios-orders';
 import Logout from './containers/Auth/Logout/Logout'
-import * as actions from './store/actions'
+import * as actions from './state/ducks/auth/actions'
 
 const asyncCheckout = asyncComponent(() => {
   return import('./containers/Checkout/Checkout')
@@ -75,7 +75,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
+    onTryAutoSignup: () => dispatch(actions.checkState())
   }
 }
 

@@ -5,7 +5,7 @@ import Input from '../../components/UI/Input/Input'
 import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import classes from './Auth.css'
-import * as actions from "../../store/actions";
+import * as authActions from '../../state/ducks/auth/actions'
 import { checkValidity } from "../../shared/utility";
 
 
@@ -69,7 +69,7 @@ class Auth extends Component {
 
     submitHandler = (event) => {
         event.preventDefault()
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup)
+        this.props.onSignin(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup)
     }
 
     switchAuthModeHandler = () => {
@@ -143,10 +143,10 @@ const mapStateToProps = (state) => ({
     authRedirectPath: state.auth.authRedirectPath
 })
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
-        onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath('/'))
+        onSignin: (email, password, isSignup) => dispatch(authActions.signinRequested(email, password, isSignup)),
+        onSetAuthRedirectPath: () => dispatch(authActions.redirectPath('/'))
     }
 }
 

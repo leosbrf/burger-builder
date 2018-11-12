@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
-import Order from '../../components/Order/Order';
-import Spinner from "../../components/UI/Spinner/Spinner";
-import * as actions from "../../store/actions";
+import React, { Component } from 'react'
+import { connect } from "react-redux"
+import Order from '../../components/Order/Order'
+import Spinner from "../../components/UI/Spinner/Spinner"
+import { fetchOrdersRequested } from "../../state/ducks/order/actions"
 
 class Orders extends Component {
 
@@ -41,7 +41,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: (userId) => dispatch(actions.fetchOrders(userId))
+        onFetchOrders: (userId) => dispatch(fetchOrdersRequested(userId))
     }
 }
 

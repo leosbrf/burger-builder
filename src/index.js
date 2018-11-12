@@ -1,45 +1,36 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter /*, Route, Switch, Redirect*/ } from "react-router-dom";
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import './index.css';
-import App from './App';
-import burgerBuilderReducer from './store/reducers/burgerBuilder';
-import orderReducer from './store/reducers/order';
-import authReducer from './store/reducers/auth';
-import registerServiceWorker from './registerServiceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter } from "react-router-dom"
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+import createSagaMiddleware from 'redux-saga'
+import './index.css'
+import App from './App'
+import rootSagaWatcher from "./state/ducks"
+import authReducer from "./state/ducks/auth/reducers"
+import burgerBuilderReducer from './state/ducks/burgerBuilder/reducers'
+import orderReducer from './state/ducks/order/reducers'
+import registerServiceWorker from './registerServiceWorker'
 
-
-//import Checkout from './containers/Checkout/Checkout';
-
-// const store = createStore(burgerBuilderReducer, window.__REDUX_DEVTOOLS_EXTENSION__ 
-//     && window.__REDUX_DEVTOOLS_EXTENSION__());
+const sagaMiddleware = createSagaMiddleware()
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
-const rootReducer = combineReducers({ 
-        burgerBuilder: burgerBuilderReducer, 
-        order: orderReducer,
-        auth: authReducer
-    });
+const rootReducer = combineReducers({
+    burgerBuilder: burgerBuilderReducer,
+    order: orderReducer,
+    auth: authReducer
+});
 
 const store = createStore(rootReducer, composeEnhancers(
-    applyMiddleware(thunk)
+    applyMiddleware(sagaMiddleware)
 ));
+
+sagaMiddleware.run(rootSagaWatcher)
 
 const app = (
     <BrowserRouter>
         <App />
-        {/* <div>
-            <Switch>
-                <Route path="/home" component={App}></Route>
-                <Route path="/checkout" component={Checkout}></Route>
-                <Redirect from="/" exact to="/home" />
-                <Route render={() => (<h1>Page Not Found!</h1>)} />
-            </Switch>
-        </div> */}
     </BrowserRouter>
 );
 

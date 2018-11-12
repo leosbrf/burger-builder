@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Burger from '../../components/Burger/Burger';
-import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-import Modal from './../../components/UI/Modal/Modal';
-import OrderSummary from './../../components/Burger/OrderSummary/OrderSummary';
-import Spinner from '../../components/UI/Spinner/Spinner';
-
-import * as actions from '../../store/actions';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import Burger from '../../components/Burger/Burger'
+import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import Modal from './../../components/UI/Modal/Modal'
+import OrderSummary from './../../components/Burger/OrderSummary/OrderSummary'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import * as authActions from '../../state/ducks/auth/actions'
+import * as burgerBuilderActions from "../../state/ducks/burgerBuilder/actions"
+import * as orderActions from "../../state/ducks/order/actions"
 
 //The export was also added here for unit testing purposes
 export class BurgerBuilder extends Component {
@@ -17,12 +18,12 @@ export class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        this.props.onInitIngredients();
+        this.props.onInitIngredients()
     }
 
     isPurchasable(ingredients) {
-        if (!ingredients) return false;
-        
+        if (!ingredients) return false
+
         const sum = Object.keys(ingredients)
             .map(igKey => {
                 return ingredients[igKey]
@@ -141,11 +142,11 @@ const mapDispatchToProps = dispatch => {
     return {
         // onGetIngredientsSuccess: (ingredients) => dispatch({ type: actions.GET_INGREDIENTS_SUCCESS, payload: { ingredients: ingredients } }),
         // onGetIngredientsError: () => dispatch({ type: actions.GET_INGREDIENTS_ERROR, payload: { error: true } }),
-        onAddIngredient: (ingredientType) => dispatch(actions.addIngredient(ingredientType)),
-        onRemoveIngredient: (ingredientType) => dispatch(actions.removeIngredient(ingredientType)),
-        onInitIngredients: () => dispatch(actions.initIngredients()),
-        onInitPurchase: () => dispatch(actions.purchaseInit()),
-        onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
+        onAddIngredient: (ingredientType) => dispatch(burgerBuilderActions.addIngredient(ingredientType)),
+        onRemoveIngredient: (ingredientType) => dispatch(burgerBuilderActions.removeIngredient(ingredientType)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.fetchIngredientsStart()),
+        onInitPurchase: () => dispatch(orderActions.purchaseInit()),
+        onSetAuthRedirectPath: (path) => dispatch(authActions.redirectPath(path))
     }
 }
 

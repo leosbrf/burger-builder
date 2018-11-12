@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Button from '../../../components/UI/Button/Button';
-import classes from './ContactData.css';
-import axios from '../../../axios-orders';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-import Input from '../../../components/UI/Input/Input';
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import * as actions from "../../../store/actions";
-import { checkValidity } from "../../../shared/utility";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import Button from '../../../components/UI/Button/Button'
+import classes from './ContactData.css'
+import axios from '../../../axios-orders'
+import Spinner from '../../../components/UI/Spinner/Spinner'
+import Input from '../../../components/UI/Input/Input'
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+import { purchaseBurgerRequested } from '../../../state/ducks/order/actions'
+import { checkValidity } from "../../../shared/utility"
 
 
 class ContactData extends Component {
@@ -198,7 +198,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData) => dispatch(purchaseBurgerRequested(orderData))
     }
 
 }
